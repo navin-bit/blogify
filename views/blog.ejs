@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head.ejs") %>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Home</title>
+  </head>
+  <body>
+    <%- include("./partials/navbar.ejs") %>
+
+    <section class="container m-4">
+      <h5><%= blog.title %></h5>
+      <img
+        src="<%= blog.coverImageUrl%>"
+        loading="lazy"
+        class="img-fluid"
+        alt="img"
+      />
+      <section class="container m-4">
+        <p class="mt-3"><%= blog.body %></p>
+      </section>
+      <div class="m-4">
+        <img
+          src="<%= blog.createdBy.profileImageUrl%>"
+          width="30px"
+          alt="img"
+        />
+        <%= blog.createdBy.fullname%>
+      </div>
+    </section>
+
+    <section id="comment-box" class="container m-4">
+      <h1>Comments (<%= comments.length %>)</h1>
+      <% if (locals.user) { %>
+
+      <form class="d-flex" action="/blog/comment/<%= blog._id %>" method="post">
+        <input type="text" name="comment" class="form-control" />
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </section>
+
+    <% } %>
+    <div class="comments container m-4">
+      <% comments.forEach(comment=> { %>
+      <div class="m-4">
+        <img
+          src="<%= comment.createdBy.profileImageUrl%>"
+          width="30px"
+          alt="img"
+        />
+        <%= comment.createdBy.fullname%>
+        <p><%= comment.comment %></p>
+      </div>
+      <% }) %>
+    </div>
+  </body>
+</html>
